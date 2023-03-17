@@ -113,7 +113,7 @@ elSelect.addEventListener("change", (evt) => {
 	}
 });
 
-let elSearch = document.querySelectorAll(".search");
+let elSearch = document.querySelector(".search");
 function search(array) {
 	elSearch.addEventListener("keyup", (evt) => {
 		evt.preventDefault();
@@ -127,16 +127,19 @@ function search(array) {
 }
 search(allMovies);
 
+let elRating = document.querySelector(".rating");
 
 
-function rating(array) {
-	elSearch.addEventListener("keyup", (evt) => {
+// function rating(array) {
+	elRating.addEventListener("input", (evt) => {
 		evt.preventDefault();
 		let value = evt.target.value;
+    console.log(value);
 		wrapper.innerHTML = "";
-		const newItem = array.filter((item) => {
-			return item.title.includes(value);
+		let newItem = allMovies.filter((item) => {
+      // item.rating
+			return item.rating==value;
 		});
 		renderUi(newItem);
 	});
-}
+// }
