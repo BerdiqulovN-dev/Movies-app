@@ -14,7 +14,7 @@
 //     "bigThumbnail": "http://i3.ytimg.com/vi/4hZi5QaMBFc/maxresdefault.jpg"
 // }
 
-movies.splice(20);
+movies.splice(1000);
 
 // ============================= NORMALIZE ALL MOVIES =========================//
 
@@ -38,14 +38,15 @@ let allMovies = movies.map((item) => {
 
 // ============================= NORMALIZE ALL MOVIES END =========================//
 
-allMovies.forEach((item) => {
-	const card = createElement(
-		"div",
-		"card",
-		`
+function renderUi(array) {
+	array.forEach((item) => {
+		const card = createElement(
+			"div",
+			"card",
+			`
        <div class="bg-image hover-overlay ripple"
             data-mdb-ripple-color="light">
-            <img src="${item.minImg}" class="img-fluid w-100" />
+            <img src="${item.minImg}" class="img-fluid w-100"/>
             <a href="#!">
                <div class="mask"></div>  
             </a>
@@ -67,51 +68,75 @@ allMovies.forEach((item) => {
             <a href="${item.link}" class="btn btn-primary ">watch movie</a>
        </div>
     `,
-	);
+		);
 
-	$(".wrapper").append(card);
-});
+		$(".wrapper").append(card);
+	});
+}
 
-
+renderUi(allMovies);
 
 let elSelect = document.querySelector(".elSelect");
+let selectArr2 = [];
 
-let selectArr = [];
-// let selectArr2 = [];
-// let i=allMovies.length;
-function select(arr) {
+allMovies.forEach((item) => {
+	let elOption = document.createElement("option");
+	const arr = item.category;
+	// console.log(arr);
 	arr.forEach((item) => {
-		let elOption = document.createElement("option");
-		if (!selectArr.includes(item.category)) {
-     console.log(selectArr);
-     elOption.textContent = item.category;
-     elSelect.append(elOption);
+		if (!selectArr2.includes(item)) {
+			selectArr2.push(item);
+			// console.log(selectArr2);
+			for (let i = 0; i < selectArr2.length; i++) {
+				elOption.textContent = selectArr2[i];
+				elSelect.append(elOption);
+			}
 		}
 	});
+});
 
-  // for (let i = 0; i < selectArr.length; i++) {
-  //   elOption.textContent = selectArr[i];
-  //   elSelect.append(elOption);
-  //   }
+let wrapper = document.querySelector(".wrapper");
+
+elSelect.addEventListener("change", (evt) => {
+	evt.preventDefault();
+	let value = evt.target.value;
+	wrapper.innerHTML = "";
+	if (value == "all") {
+		renderUi(allMovies);
+		search(allMovies);
+	} else {
+		const newItem = allMovies.filter((item) => {
+			return value == item.category;
+		});
+		renderUi(newItem);
+		search(newItem);
+	}
+});
+
+let elSearch = document.querySelectorAll(".search");
+function search(array) {
+	elSearch.addEventListener("keyup", (evt) => {
+		evt.preventDefault();
+		let value = evt.target.value;
+		wrapper.innerHTML = "";
+		const newItem = array.filter((item) => {
+			return item.title.includes(value);
+		});
+		renderUi(newItem);
+	});
 }
-select(allMovies);
+search(allMovies);
 
 
-// let selectArr = [];
-// let selectArr2 = [];
 
-// function select(arr) {
-// 	arr.forEach((item) => {
-// 		let elOption = document.createElement("option");
-// 		selectArr = item.category;
-// 		if (!selectArr2.includes(selectArr)) {
-// 			selectArr2.push(selectArr);
-// console.log(selectArr2);
-// 			for (let i = 0; i < selectArr2.length; i++) {
-// 				elOption.textContent = selectArr2[i];
-// 				elSelect.append(elOption);
-// 			}
-// 		}
-// 	});
-// }
-// select(allMovies);
+function rating(array) {
+	elSearch.addEventListener("keyup", (evt) => {
+		evt.preventDefault();
+		let value = evt.target.value;
+		wrapper.innerHTML = "";
+		const newItem = array.filter((item) => {
+			return item.title.includes(value);
+		});
+		renderUi(newItem);
+	});
+}
