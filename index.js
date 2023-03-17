@@ -14,7 +14,7 @@
 //     "bigThumbnail": "http://i3.ytimg.com/vi/4hZi5QaMBFc/maxresdefault.jpg"
 // }
 
-movies.splice(50);
+movies.splice(20);
 
 // ============================= NORMALIZE ALL MOVIES =========================//
 
@@ -30,11 +30,11 @@ let allMovies = movies.map((item) => {
 		summary: item.summary,
 		maxImg: item.bigThumbanil,
 		minImg: item.smallThumbnail,
-		time: `${Math.trunc(item.runtime / 60)}h ${item.runtime % 60}m`,
+		time: `${Math.trunc(item.runtime / 60)} soat ${item.runtime % 60} min`,
 	};
 });
 
-console.log(allMovies);
+// console.log(allMovies);
 
 // ============================= NORMALIZE ALL MOVIES END =========================//
 
@@ -44,26 +44,74 @@ allMovies.forEach((item) => {
 		"card",
 		`
        <div class="bg-image hover-overlay ripple"
-                    data-mdb-ripple-color="light">
-                    <img
-                      src="${item.minImg}"
-                      class="img-fluid w-100" />
-                    <a href="#!">
-                      <div
-                        class="mask"
-                      ></div>
-                    </a>
-                  </div>
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">
-                      Some quick example text to build on the card title and
-                      make up the bulk of the card's content.
-                    </p>
-                    <a href="#!" class="btn btn-primary">Button</a>
-                  </div>
+            data-mdb-ripple-color="light">
+            <img src="${item.minImg}" class="img-fluid w-100" />
+            <a href="#!">
+               <div class="mask"></div>  
+            </a>
+          </div>
+          <div class="card-body position-relative">
+            <h5 class="card-title  position-absolute">${item.title}</h5>
+            <span class="card-span d-flex align-items-center justify-content-between">
+                <p class="card-time">${item.time}</p>
+                <span class="card-span-rating d-flex align-items-center gap-2 mb-3">
+                  <img src="./images/star.jpg" alt="" class="star" width="20px">
+                  <p class="card-text">Rating: ${item.rating}</p>
+                </span>
+            </span>
+            <span class="card-span d-flex justify-content-between">
+                <p class="card-text">${item.year} y. </p>
+                <p class="card-text">${item.lang}</p>
+            </span>
+            <p class="card-text">${item.category}</p>
+            <a href="${item.link}" class="btn btn-primary ">watch movie</a>
+       </div>
     `,
 	);
 
 	$(".wrapper").append(card);
 });
+
+
+
+let elSelect = document.querySelector(".elSelect");
+
+let selectArr = [];
+// let selectArr2 = [];
+// let i=allMovies.length;
+function select(arr) {
+	arr.forEach((item) => {
+		let elOption = document.createElement("option");
+		if (!selectArr.includes(item.category)) {
+     console.log(selectArr);
+     elOption.textContent = item.category;
+     elSelect.append(elOption);
+		}
+	});
+
+  // for (let i = 0; i < selectArr.length; i++) {
+  //   elOption.textContent = selectArr[i];
+  //   elSelect.append(elOption);
+  //   }
+}
+select(allMovies);
+
+
+// let selectArr = [];
+// let selectArr2 = [];
+
+// function select(arr) {
+// 	arr.forEach((item) => {
+// 		let elOption = document.createElement("option");
+// 		selectArr = item.category;
+// 		if (!selectArr2.includes(selectArr)) {
+// 			selectArr2.push(selectArr);
+// console.log(selectArr2);
+// 			for (let i = 0; i < selectArr2.length; i++) {
+// 				elOption.textContent = selectArr2[i];
+// 				elSelect.append(elOption);
+// 			}
+// 		}
+// 	});
+// }
+// select(allMovies);
